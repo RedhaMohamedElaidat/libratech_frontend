@@ -6,8 +6,6 @@ import 'package:http/http.dart' as http;
 import 'package:libratech/Sign_up/signup.dart';
 import 'package:libratech/main.dart';
 
-
-
 class User {
   final String email;
   final String password;
@@ -318,7 +316,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _buildPasswordField() { /* identique à ton code précédent */ 
+  Widget _buildPasswordField() { 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
