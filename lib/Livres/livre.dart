@@ -14,7 +14,7 @@ class _BooksListScreenState extends State<BooksListScreen> {
   final String apiUrl = 'https://libratech-backend.onrender.com/api/books/';
   final String baseUrl = 'https://libratech-backend.onrender.com';
 
-  // === DONNÉES ===
+  // === DONNÉES  DES LIVRES DANS LA BDD===
   String searchQuery = '';
   String selectedCategory = 'Tous';
   bool isGridView = false;
@@ -32,7 +32,7 @@ class _BooksListScreenState extends State<BooksListScreen> {
 
   // === API CALLS ===
 
-  /// Récupérer les livres depuis le backend
+  /// Récupérer les livres depuis le backend 
   Future<void> _fetchBooks() async {
     setState(() {
       isLoading = true;
@@ -89,7 +89,7 @@ class _BooksListScreenState extends State<BooksListScreen> {
     }
   }
 
-  /// Mettre à jour les catégories depuis les livres
+  /// Mettre à jour les catégories depuis les livres 
   void _updateCategories() {
     Set<String> uniqueCategories = {'Tous'};
     for (var book in allBooks) {
@@ -98,7 +98,7 @@ class _BooksListScreenState extends State<BooksListScreen> {
     categories = uniqueCategories.toList();
   }
 
-  /// Réserver un livre
+  /// Réserver un livre mais il faut verifier aussi
   Future<void> _reserveBook(Map<String, dynamic> book, [BuildContext? callerContext]) async {
     try {
       final response = await http.post(
@@ -117,7 +117,7 @@ class _BooksListScreenState extends State<BooksListScreen> {
               duration: const Duration(seconds: 2),
             ),
           );
-          _fetchBooks(); // Rafraîchir la liste
+          _fetchBooks(); // Rafraîchir la liste chaque fois 
         } else {
           ScaffoldMessenger.of(usedContext).showSnackBar(
             SnackBar(
@@ -140,7 +140,7 @@ class _BooksListScreenState extends State<BooksListScreen> {
     }
   }
 
-  /// Emprunter un livre
+  /// Emprunter un livre mais il faut verifier
   Future<void> _borrowBook(Map<String, dynamic> book, [BuildContext? callerContext]) async {
     try {
       final response = await http.post(
