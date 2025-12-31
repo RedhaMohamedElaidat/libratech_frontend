@@ -21,9 +21,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   // === DONNÉES UTILISATEUR ===
   late String userName;
   late String userEmail;
-  String userPhone = '';
-  String userAddress = '';
-  String memberId = '';
+  String userPhone = ''; //initialise user-phone
+  String userAddress = ''; //initialise user-address
+  String memberId = '';//initialise user-id
   String joinDate = '';
   String userRole = '';
 
@@ -81,7 +81,7 @@ Future<void> _fetchUserData() async {
       errorMessage = null;
     });
 
-    // 1. Récupérer les informations de l'utilisateur
+    // 1. Récupérer les informations de l'utilisateur via l'api
     final String usersApiUrl = 'https://libratech-backend.onrender.com/api/users/';
     debugPrint('Tentative de connexion à: $usersApiUrl');
     
@@ -100,7 +100,7 @@ Future<void> _fetchUserData() async {
       final usersJson = json.decode(usersResponse.body);
       final List<dynamic> users = usersJson['results'] ?? [];
       
-      // Rechercher l'utilisateur correspondant
+      // Rechercher l'utilisateur correspondant via le tableau qui a tous les données
       dynamic userFound;
       for (var user in users) {
         if (user is Map<String, dynamic>) {
@@ -121,7 +121,7 @@ Future<void> _fetchUserData() async {
         return;
       }
 
-      // Extraire les données de base
+      // Extraire les données de base de l'utisateur selectinnné
       setState(() {
         userName = userFound['username'] ?? '';
         userEmail = userFound['email'] ?? '';
@@ -158,10 +158,10 @@ Future<void> _fetchUserData() async {
   }
 }
 
-/// Récupérer les statistiques de l'utilisateur
+/// Récupérer tous les statistiques de l'utilisateur 
 Future<void> _fetchUserStatistics(int userId) async {
   try {
-    // === RÉCUPÉRER LES EMPRUNTS ===
+    // === RÉCUPÉRER LES EMPRUNTS de l'utlisateur===
     final loansResponse = await http.get(
       Uri.parse('https://libratech-backend.onrender.com/api/loans/'),
       headers: {'Content-Type': 'application/json'},
@@ -177,13 +177,13 @@ Future<void> _fetchUserStatistics(int userId) async {
         loansData = loansJson;
       }
 
-      // Filtrer les emprunts de cet utilisateur
+      // Filtrer les emprunts de cet utilisateur pas par pas 
       int totalBorrowsCount = 0;
       int currentBorrowsCount = 0;
       
       for (var loan in loansData) {
         if (loan is Map<String, dynamic>) {
-          // Vérifier si l'emprunt appartient à cet utilisateur
+          // Vérifier si l'emprunt appartient à cet utilisateur ou non
           int loanUserId = loan['user'] is Map 
               ? loan['user']['id'] ?? 0
               : loan['user'] ?? 0;
@@ -191,7 +191,7 @@ Future<void> _fetchUserStatistics(int userId) async {
           if (loanUserId == userId) {
             totalBorrowsCount++;
             
-            // Vérifier si c'est un emprunt en cours
+            // Vérifier si c'est un emprunt en cours ou non
             String status = (loan['status'] ?? '').toString().toLowerCase();
             bool isReturned = status == 'returned' || 
                              loan['returned_date'] != null ||
@@ -204,7 +204,7 @@ Future<void> _fetchUserStatistics(int userId) async {
         }
       }
 
-      // === RÉCUPÉRER LES RÉSERVATIONS ===
+      // === RÉCUPÉRER LES RÉSERVATIONS  de l'utilisateur===
       final reservationsResponse = await http.get(
         Uri.parse('https://libratech-backend.onrender.com/api/reservations/'),
         headers: {'Content-Type': 'application/json'},
