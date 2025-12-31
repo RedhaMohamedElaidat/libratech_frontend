@@ -181,6 +181,7 @@ class _SignupScreenState extends State<SignupScreen> {
           'Content-Type': 'application/json',
         },
         body: jsonEncode({
+          /*username+full_name+email+phone+email +password*/
           'username': emailController.text.trim().toLowerCase(),
           'full_name': nameController.text.trim(),
           'email': emailController.text.trim().toLowerCase(),
