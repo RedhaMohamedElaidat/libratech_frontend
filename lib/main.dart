@@ -10,6 +10,8 @@ void main() {
   runApp(const MyApp());
 }
 
+
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -28,14 +30,14 @@ class HomeScreen extends StatefulWidget {
   final String userEmail;
   final String fullName;
   
-  final int userId;// <-- Ajouté
+  final int userId;
 
   const HomeScreen({
     super.key,
     required this.userName,
   required this.userEmail,
   required this.fullName,
-   required this.userId,// <-- Ajouté
+   required this.userId,
   });
 
   @override
@@ -51,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
   bool isLoading = true;
   String? errorMessage;
-  late String displayName; // <-- Utilisation de fullName
+  late String displayName; 
   late String userEmail;
   late int userId;
   List<Map<String, dynamic>> currentLoans = [];
@@ -65,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    displayName = widget.fullName; // <-- initialiser avec fullName
+    displayName = widget.fullName;
     userEmail = widget.userEmail;
     userId = widget.userId;
     _fetchHomeData();
@@ -109,14 +111,14 @@ class _HomeScreenState extends State<HomeScreen> {
               loan['returned_date'] != null;
 
           if (!isReturned) {
-            int daysLeft = _calculateDaysLeft(loan['due_date']); // ✅ Changé de return_date à due_date
+            int daysLeft = _calculateDaysLeft(loan['due_date']); // Changé de return_date à due_date
             bool isUrgent = daysLeft <= 3;
             bool isOverdue = daysLeft < 0;
 
             if (isOverdue) overdueBooks++;
             if (isUrgent) toReturnSoon++;
 
-            // ✅ Gérer les deux cas : book est un ID ou un objet
+            //  Gérer les deux cas : book est un ID ou un objet
             String title = 'Sans titre';
             String author = 'Auteur inconnu';
             
